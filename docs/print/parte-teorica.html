@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Redige — Parte Teórica</title>
+<style>
+  @page { size: A4; margin: 15mm 17mm 16mm; }
+  :root {
+    --ink: #1b1f24; --muted: #5d6673; --line: #dfe3e8; --accent: #0b5cad;
+    --soft: #f3f6fa; --code: #f5f6f8; --warn: #fff6dd; --ok: #e6f4ec;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; color: var(--ink); font: 10pt/1.5 -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  h1, h2, h3 { line-height: 1.25; break-after: avoid; }
+  h2 { font-size: 15pt; margin: 16pt 0 6pt; padding-top: 6pt; border-top: 1px solid var(--line); }
+  h2 .n { color: var(--accent); margin-right: 6pt; }
+  h3 { font-size: 11pt; margin: 14pt 0 4pt; }
+  p { margin: 0 0 7pt; orphans: 3; widows: 3; }
+  ul, ol { margin: 0 0 8pt; padding-left: 16pt; }
+  li { margin-bottom: 3pt; }
+  code { font: 8.8pt/1.4 ui-monospace, Menlo, monospace; background: var(--code); padding: 0.5pt 3pt; border-radius: 3px; }
+  pre { font: 8.6pt/1.5 ui-monospace, Menlo, monospace; background: var(--code); border: 1px solid var(--line); border-radius: 6px; padding: 8pt 10pt; margin: 4pt 0 10pt; white-space: pre-wrap; break-inside: avoid; }
+  pre .c { color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; margin: 4pt 0 10pt; font-size: 9pt; break-inside: auto; }
+  th, td { text-align: left; vertical-align: top; padding: 5pt 6pt; border-bottom: 1px solid var(--line); }
+  th { background: var(--soft); font-weight: 600; }
+  tr { break-inside: avoid; }
+  a { color: var(--accent); text-decoration: none; }
+  .muted { color: var(--muted); }
+
+  /* Capa / cabeçalho */
+  .header { border-bottom: 3px solid var(--accent); padding-bottom: 12pt; margin-bottom: 14pt; }
+  .eyebrow { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; margin: 0 0 4pt; }
+  .header h1 { font-size: 24pt; margin: 0 0 2pt; letter-spacing: -0.01em; }
+  .header .sub { font-size: 12pt; color: var(--muted); margin: 0 0 10pt; }
+  .meta { display: grid; grid-template-columns: auto 1fr; gap: 2pt 10pt; font-size: 9pt; }
+  .meta dt { color: var(--muted); }
+  .meta dd { margin: 0; }
+
+  .tldr { background: var(--soft); border-left: 4px solid var(--accent); border-radius: 4px; padding: 9pt 12pt; margin: 0 0 6pt; break-inside: avoid; }
+  .tldr b { color: var(--accent); }
+  .note { background: var(--warn); border-radius: 6px; padding: 7pt 10pt; margin: 6pt 0 10pt; font-size: 9.4pt; break-inside: avoid; }
+
+  /* Pipeline */
+  .pipeline { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5pt; margin: 8pt 0 12pt; break-inside: avoid; }
+  .pipeline div { border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 5px; padding: 6pt; font-size: 8.3pt; line-height: 1.35; background: #fff; }
+  .pipeline b { display: block; font-size: 8.8pt; margin-bottom: 2pt; }
+  .pipeline .h { border-top-color: #1a7f4b; background: var(--ok); }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; break-inside: avoid; }
+  .two h3 { margin-top: 4pt; }
+
+  .keep { break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <p class="eyebrow">Fundamentos de IA com foco em IA Generativa · UniFECAF</p>
+  <h1>Redige — Assistente Corporativo Inteligente</h1>
+  <p class="sub">Parte Teórica: análise e discussão das decisões do projeto</p>
+  <dl class="meta">
+    <dt>Aluno</dt><dd>Greg Lopes</dd>
+    <dt>Aplicação</dt><dd><a href="https://assistente-corporativo.pages.dev">assistente-corporativo.pages.dev</a></dd>
+    <dt>Código</dt><dd><a href="https://github.com/greglopes/assistente-corporativo">github.com/greglopes/assistente-corporativo</a></dd>
+    <dt>Vídeo</dt><dd><a href="https://www.loom.com/share/1d9c418ed9364d27ac12a4b3faa5263e">loom.com/share/1d9c418ed9364d27ac12a4b3faa5263e</a></dd>
+  </dl>
+</header>
+
+<div class="tldr">
+  <b>Resumindo:</b> o Redige é um agente de IA que recebe um formulário simples e roda um <i>pipeline</i> de etapas:
+  mascara os dados pessoais, entende o pedido, escreve, avalia o próprio texto (e reescreve se precisar) e entrega
+  tudo para uma pessoa aprovar. Custo de infraestrutura: zero.
+</div>
+
+<h2><span class="n">1</span>O problema e a solução</h2>
+<p>
+  A Nova Rota Logística (empresa fictícia do desafio) tem um problema bem comum: muita gente escrevendo e-mails,
+  comunicados e resumos de reunião, cada uma do seu jeito. O resultado são textos longos, tom inconsistente e um
+  monte de retrabalho de revisão antes de qualquer coisa ser publicada.
+</p>
+
+<h3>Por que não é só "usar o ChatGPT"?</h3>
+<p>Abrir um chatbot e pedir um texto resolve parte do problema, mas cria outros:</p>
+<ul>
+  <li><b>Todo mundo precisaria saber escrever um bom prompt</b>, toda vez. Cada pessoa escreveria um prompt diferente, e a inconsistência voltaria pela porta dos fundos.</li>
+  <li><b>Ninguém garante que o modelo não inventou nada</b>: uma data, um valor, uma promessa ao cliente.</li>
+  <li><b>Dados pessoais iriam direto para um fornecedor externo</b>, sem nenhum filtro. Na prática, as pessoas colam CPF, e-mail e telefone sem pensar duas vezes.</li>
+</ul>
+
+<h3>A ideia do Redige</h3>
+<p>
+  Em vez de deixar o "como escrever bem" na cabeça de cada colaborador, eu coloquei esse conhecimento
+  <b>dentro do fluxo</b>. A pessoa só preenche um formulário estruturado (objetivo, canal, público, tom e as
+  informações, que podem ser anotações soltas) e o agente cuida do resto: prompts especializados, manual de estilo
+  da empresa, regras contra invenção, autoavaliação e proteção de dados. No fim, um humano sempre aprova.
+</p>
+
+<div class="keep">
+<h2><span class="n">2</span>Modelos de IA escolhidos (e por quê)</h2>
+<table>
+  <tr><th style="width:26%">Modelo</th><th style="width:22%">Papel</th><th>Por que escolhi</th></tr>
+  <tr>
+    <td><b>Google Gemini Flash-Lite</b><br><span class="muted">via API, plano gratuito</span></td>
+    <td>Principal: triagem, redação e revisão</td>
+    <td>Escreve bem em português; suporta <b>saída em JSON com schema</b>, o que permite que o código leia e tome decisões com base nas respostas; é rápido (cada pedido faz de 3 a 5 chamadas); e tem plano gratuito.</td>
+  </tr>
+  <tr>
+    <td><b>Llama 3.3 70B</b><br><span class="muted">via Cloudflare Workers AI</span></td>
+    <td>Reserva automática (<i>fallback</i>)</td>
+    <td>Roda na mesma infraestrutura onde o site está hospedado, também tem cota gratuita e não precisa de chave. Se o Gemini responder que a cota acabou (HTTP 429), a mesma chamada é refeita aqui, sem o usuário perceber.</td>
+  </tr>
+</table>
+</div>
+
+<h3>Por que um modelo "leve" e não o mais potente?</h3>
+<p>
+  A tarefa aqui é <b>reorganizar e reescrever fatos que já foram fornecidos</b>, e não resolver um problema complexo
+  de raciocínio. Um modelo leve dá conta com qualidade, responde mais rápido (importante, já que são várias
+  chamadas em sequência) e cabe no plano gratuito. É usar a ferramenta certa para o trabalho.
+</p>
+
+<h3>Camada de modelo plugável</h3>
+<p>
+  O agente não sabe qual modelo está usando: ele só conhece uma interface. Trocar o Gemini por GPT, Claude ou
+  outro modelo é questão de configuração, sem mexer no fluxo:
+</p>
+<pre>interface Llm {
+  name: string
+  call(c: LlmCall): Promise&lt;string&gt;   <span class="c">// system prompt + prompt + schema JSON opcional</span>
+}</pre>
+
+<div class="note">
+  <b>Ponto de atenção:</b> no plano gratuito do Gemini, o Google pode usar os dados enviados para melhorar seus
+  produtos. Isso pesou bastante na decisão de <b>mascarar dados pessoais antes de qualquer chamada</b> (seção 6).
+  Numa versão de produção, o certo seria usar um plano pago com cláusula de não treinamento.
+</div>
+
+<h2><span class="n">3</span>Estratégia de prompts</h2>
+<p>Essas foram as técnicas de engenharia de prompt aplicadas, todas no arquivo <code>server/utils/prompts.ts</code>:</p>
+<ol>
+  <li><b>Prompt chaining (dividir para conquistar):</b> em vez de um prompt gigante, são três prompts especializados (<b>triagem</b>, <b>redação</b> e <b>revisão</b>), cada um com papel, objetivo e formato de saída bem definidos.</li>
+  <li><b>Role prompting:</b> cada etapa tem uma persona: "módulo de triagem", "redator oficial da Nova Rota", "revisor de qualidade".</li>
+  <li><b>Contexto fixo da empresa:</b> um manual de estilo com 7 regras (clareza, informação principal primeiro, linguagem inclusiva, sempre dizer o que se espera do leitor…) entra em todas as etapas. É ele que resolve a padronização.</li>
+  <li><b>Regras anti-alucinação:</b> "use somente os fatos informados" e "se faltar algo, escreva um marcador como <code>[DEFINIR DATA]</code>". Assim, o que o modelo não sabe vira uma <b>pendência visível</b> para o humano, e não uma invenção.</li>
+  <li><b>Saída estruturada (JSON schema):</b> triagem e revisão respondem em JSON validado. É isso que permite ao código decidir sozinho se o texto precisa ser reescrito.</li>
+  <li><b>Instruções por canal:</b> cada canal tem guia de formato e limite de palavras (e-mail com assunto e até 250 palavras; chat sem despedida e até 120; resumo de reunião com decisões e próximos passos etc.).</li>
+  <li><b>Self-refine (autocrítica):</b> o rascunho passa por um prompt de revisor, e o feedback volta para o redator numa reescrita.</li>
+  <li><b>Separar instrução de dado:</b> o texto do usuário vai entre tags <code>&lt;informacoes&gt;</code>, e o modelo é instruído a nunca seguir ordens que apareçam ali. É a defesa contra <i>prompt injection</i>.</li>
+  <li><b>Temperatura por etapa:</b> 0,1 na triagem e 0 na revisão, para respostas consistentes; 0,6 na redação, para o texto soar natural.</li>
+</ol>
+<p>Um trecho das regras da etapa de redação:</p>
+<pre>REGRAS OBRIGATÓRIAS
+- Use SOMENTE os fatos informados. Nunca invente datas, números, nomes,
+  valores, links ou compromissos.
+- Se uma informação necessária estiver faltando, escreva um marcador entre
+  colchetes, por exemplo [DEFINIR DATA]. Um humano vai completar.
+- Marcadores como [EMAIL_1] ou [CPF_1] substituem dados protegidos:
+  copie-os exatamente como estão.</pre>
+
+<h2><span class="n">4</span>Como o fluxo funciona</h2>
+<div class="pipeline">
+  <div><b>1. Privacidade</b>CPF, e-mail, telefone, CNPJ e cartão viram marcadores</div>
+  <div><b>2. Triagem</b>Tipo, intenção, urgência, pontos-chave e o que falta (JSON)</div>
+  <div><b>3. Redação</b>Manual de estilo + formato do canal</div>
+  <div><b>4. Revisão</b>Nota, tom, formato e invenções (JSON) + checagens em código</div>
+  <div><b>5. Correção</b>Reescreve com o feedback, se reprovado</div>
+  <div class="h"><b>6. Humano</b>Edita, pede ajustes e aprova</div>
+</div>
+<ol>
+  <li><b>Entrada estruturada:</b> o formulário é validado no servidor (campos obrigatórios, tamanho máximo, valores permitidos). Há também um limite de requisições por IP, para ninguém esgotar a cota gratuita.</li>
+  <li><b>Privacidade:</b> um filtro troca dados pessoais por marcadores (<code>[CPF_1]</code>, <code>[EMAIL_1]</code>…). O mapeamento fica só no servidor.</li>
+  <li><b>Triagem (LLM):</b> o modelo entende o pedido antes de escrever e lista o que está faltando.</li>
+  <li><b>Redação (LLM):</b> gera o texto com o manual de estilo, o formato do canal e o diagnóstico da triagem.</li>
+  <li><b>Autoavaliação (LLM + código):</b> o revisor dá nota e lista invenções; o código conta palavras e encontra pendências.</li>
+  <li><b>Decisão do agente:</b> ele decide sozinho se o texto está bom o suficiente:
+<pre>aprovado = nota &gt;= 8 &amp;&amp; semInvencoes &amp;&amp; tomAdequado &amp;&amp; dentroDoLimite
+se (!aprovado &amp;&amp; aindaNaoReescreveu) → reescreve com o feedback do revisor
+senão → entrega para o humano (com os alertas visíveis)</pre></li>
+  <li><b>Restauração:</b> os dados pessoais voltam para o texto, no servidor.</li>
+  <li><b>Revisão humana:</b> a pessoa vê o rascunho, a nota, os alertas, as pendências e pode abrir <b>"Ver o que a IA recebeu"</b>, que compara lado a lado o texto original com o que de fato foi enviado ao modelo. Pode editar, pedir ajustes ("mais curto", "mais formal") e, só depois de confirmar que revisou, copiar o texto.</li>
+</ol>
+<p>
+  A interface recebe cada etapa em tempo real via <i>streaming</i> (NDJSON), então dá para ver o agente "pensando".
+  O projeto tem <b>17 testes automatizados</b> cobrindo o mascaramento de dados, as decisões do agente (aprovar,
+  reescrever, parar) e a validação de entrada.
+</p>
+
+<h2><span class="n">5</span>Benefícios, limitações e supervisão humana</h2>
+<div class="two">
+  <div>
+    <h3>Benefícios</h3>
+    <ul>
+      <li>Redigir uma comunicação rotineira cai de minutos para segundos.</li>
+      <li>Todo texto sai no mesmo tom de voz, seguindo o mesmo manual.</li>
+      <li>Anotações soltas (de uma reunião, por exemplo) viram documentos organizados.</li>
+      <li>O agente aponta o que está faltando, o que melhora a informação na origem.</li>
+      <li>O revisor automático reduz retrabalho e o risco de publicar algo inventado.</li>
+    </ul>
+  </div>
+  <div>
+    <h3>Limitações</h3>
+    <ul>
+      <li>O revisor também é uma IA e pode deixar passar erros.</li>
+      <li>O filtro de privacidade usa padrões (regex): pega CPF, e-mail etc., mas <b>não</b> nomes, endereços ou informações estratégicas.</li>
+      <li>O plano gratuito tem cota baixa e instável: serve para protótipo, não para produção.</li>
+      <li>O agente não envia nada nem acessa outros sistemas. É intencional, para o humano continuar no controle.</li>
+      <li>Entrada ruim gera texto com muitas pendências.</li>
+    </ul>
+  </div>
+</div>
+<h3>Quando a supervisão humana é obrigatória</h3>
+<ul>
+  <li><b>Sempre, antes de enviar:</b> a interface só libera a cópia depois da confirmação de revisão.</li>
+  <li>Comunicações para <b>clientes e público externo</b>, por risco de imagem e de compromissos indevidos.</li>
+  <li>Assuntos <b>jurídicos, de RH, demissões, saúde, valores financeiros</b> ou crises.</li>
+  <li>Quando a triagem levanta <b>alertas</b>, o revisor aponta <b>invenções</b> ou sobram <b>marcadores pendentes</b>.</li>
+</ul>
+
+<h2><span class="n">6</span>Análise de riscos</h2>
+<table>
+  <tr><th style="width:15%">Risco</th><th style="width:24%">Como aparece</th><th style="width:36%">O que fiz para mitigar</th><th>O que ainda resta</th></tr>
+  <tr>
+    <td><b>Privacidade / LGPD</b></td>
+    <td>Alguém cola dados pessoais de clientes ou colegas, e eles vão para um provedor externo.</td>
+    <td>Mascaramento de CPF, CNPJ, e-mail, telefone e cartão antes da chamada; nada é armazenado; o conteúdo não vai para os logs; aviso na interface; tela que mostra o que a IA recebeu. Segue o princípio da <b>necessidade/minimização</b> (art. 6º, III) e as medidas de segurança do art. 46 da LGPD.</td>
+    <td>Nomes e dados fora do padrão passam. Em produção: plano pago sem treinamento, contrato de operador (art. 39) e treinamento dos usuários.</td>
+  </tr>
+  <tr>
+    <td><b>Alucinações</b></td>
+    <td>O modelo inventa datas, valores ou promessas.</td>
+    <td>Regra "somente fatos informados"; marcadores para o que falta; revisor que lista invenções; reescrita automática; alertas visíveis; aprovação humana obrigatória.</td>
+    <td>O revisor também erra, então a responsabilidade final é sempre humana.</td>
+  </tr>
+  <tr>
+    <td><b>Vieses</b></td>
+    <td>Linguagem excludente, estereótipos, tom diferente conforme o público.</td>
+    <td>Regra de linguagem inclusiva no manual de estilo; o revisor avalia o tom; o público vem de uma lista fechada.</td>
+    <td>O modelo herda vieses do treinamento; vale auditar amostras periodicamente.</td>
+  </tr>
+  <tr>
+    <td><b>Prompt injection</b></td>
+    <td>O texto colado contém "ignore as instruções e…".</td>
+    <td>Dados do usuário entre tags e marcados como não executáveis; o agente não tem nenhuma ferramenta com efeito externo (não envia e-mail, não acessa sistemas).</td>
+    <td>Baixo: no pior caso sai um texto ruim, que ainda passa pela revisão humana.</td>
+  </tr>
+  <tr>
+    <td><b>Chave e custo</b></td>
+    <td>Vazamento da chave da API ou abuso da URL pública.</td>
+    <td>Chave só no servidor (secret do Cloudflare, fora do Git); limite por IP; limite de tamanho da entrada; validação de todos os campos.</td>
+    <td>O limite por IP é de "melhor esforço"; em produção, exigir login corporativo.</td>
+  </tr>
+  <tr>
+    <td><b>Dependência de fornecedor</b></td>
+    <td>Mudança de preço, de cota ou descontinuação do modelo.</td>
+    <td>Camada de modelo plugável e fallback automático para o Workers AI.</td>
+    <td>—</td>
+  </tr>
+</table>
+
+<h2><span class="n">7</span>Conclusão</h2>
+<p>
+  O projeto mostrou na prática que IA Generativa vai muito além de conversar com um chatbot. Juntando
+  <b>entrada estruturada, prompts especializados, saída em JSON, autoavaliação, decisões automáticas e supervisão
+  humana</b>, saiu um agente que resolve uma tarefa real de trabalho, de forma padronizada e com os riscos tratados
+  de forma explícita. As principais decisões (modelo leve e gratuito, mascaramento de dados, revisor automático e
+  aprovação humana obrigatória) buscaram equilibrar <b>qualidade, custo e uso responsável</b>.
+</p>
+<h3>Se fosse para uma v2</h3>
+<ul>
+  <li>Login corporativo (SSO) no lugar do limite por IP.</li>
+  <li>Detecção de nomes e endereços com um modelo de NER, além das regex.</li>
+  <li>Plano pago do modelo, com cláusula de não uso dos dados para treinamento.</li>
+  <li>Histórico, fluxo de aprovação em equipe e métricas de qualidade (quantos textos foram aprovados sem edição, por exemplo).</li>
+</ul>
+
+<div class="keep">
+<h2><span class="n">8</span>Referências</h2>
+<ul>
+  <li>Material da disciplina Fundamentos de IA com Foco em IA Generativa — UniFECAF.</li>
+  <li>Google AI for Developers. <i>Gemini API: structured output; rate limits.</i> <a href="https://ai.google.dev">ai.google.dev</a></li>
+  <li>Cloudflare. <i>Workers AI</i> e <i>Cloudflare Pages</i>. <a href="https://developers.cloudflare.com">developers.cloudflare.com</a></li>
+  <li>OpenAI. <i>Prompt engineering guide.</i> <a href="https://platform.openai.com/docs">platform.openai.com/docs</a></li>
+  <li>Anthropic. <i>Prompt engineering overview.</i> <a href="https://docs.anthropic.com">docs.anthropic.com</a></li>
+  <li>Make. <i>Documentação de automação e AI Agents.</i> <a href="https://help.make.com">help.make.com</a></li>
+  <li>Brasil. Lei nº 13.709/2018 — Lei Geral de Proteção de Dados Pessoais (LGPD).</li>
+</ul>
+</div>
+
+</body>
+</html>
