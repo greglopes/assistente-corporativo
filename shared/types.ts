@@ -61,6 +61,8 @@ export interface AgentResult {
   approvedByAgent: boolean
   attempts: number
   privacy: PiiFinding[]
+  /** As informações exatamente como foram enviadas ao modelo (já mascaradas). */
+  maskedInput: string
   provider: string
   totalMs: number
 }

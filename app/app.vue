@@ -48,7 +48,7 @@ async function refine(draft: string, instruction: string) {
       <div class="stack">
         <PipelineSteps :steps="steps" />
         <div v-if="error" class="callout danger" role="alert">{{ error }}</div>
-        <ResultPanel v-if="result" :result="result" :running="running" @refine="refine" />
+        <ResultPanel v-if="result" :result="result" :running="running" :original="lastRequest?.content ?? ''" @refine="refine" />
       </div>
     </main>
 

@@ -143,6 +143,7 @@ export async function* runAgent(input: AgentInput, llm: Llm): AsyncGenerator<Age
       approvedByAgent: approved(review, checks),
       attempts,
       privacy,
+      maskedInput: req.content,
       provider: llm.name,
       totalMs: Date.now() - started,
     },

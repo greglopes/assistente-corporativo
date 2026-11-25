@@ -50,6 +50,7 @@ describe('agente', () => {
     for (const c of calls) expect(c.prompt).not.toContain('financeiro@novarota.com.br')
     expect(result.draft).toBe('Use o app Despesas+. Dúvidas: financeiro@novarota.com.br')
     expect(result.privacy).toEqual([{ type: 'e-mail', count: 1 }])
+    expect(result.maskedInput).toBe('Reembolso só pelo app Despesas+. Dúvidas: [EMAIL_1]')
   })
 
   it('aprova sem reescrever quando a revisão é boa', async () => {
