@@ -2,7 +2,7 @@
 
 > Trabalho da disciplina **Fundamentos de IA com foco em IA Generativa**: *Seu Primeiro Agente de IA*.
 
-**Demonstração:** `https://SEU-PROJETO.pages.dev` <!-- substitua após o deploy -->
+**Demonstração:** https://assistente-corporativo.pages.dev
 **Vídeo pitch:** `LINK DO VÍDEO` <!-- YouTube não listado / Loom / Drive -->
 
 ## O problema
