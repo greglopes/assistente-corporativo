@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { createMasker, unmask } from '../server/utils/pii'
+import { EXAMPLES } from '../app/utils/examples'
 
 describe('filtro de privacidade', () => {
   it('mascara e restaura dados pessoais brasileiros', () => {
@@ -28,6 +29,23 @@ describe('filtro de privacidade', () => {
     expect(a).toBe('enviar para [EMAIL_1]')
     expect(b).toBe('cópia para [EMAIL_1] e [EMAIL_2]')
     expect(m.findings()).toEqual([{ type: 'e-mail', count: 2 }])
+  })
+
+  it('o exemplo de demonstração LGPD tem todos os dados mascarados', () => {
+    const demo = EXAMPLES.find(e => e.name.includes('LGPD'))!
+    const m = createMasker()
+    const masked = m.mask(demo.request.content)
+
+    for (const secret of ['123.456.789-09', 'joana.ribeiro@email.com', 'admissao@novarota.com.br', '12.345.678/0001-90', '4111 1111 1111 1111', '91234-5678']) {
+      expect(masked).not.toContain(secret)
+    }
+    expect(m.findings()).toEqual([
+      { type: 'e-mail', count: 2 },
+      { type: 'CNPJ', count: 1 },
+      { type: 'cartão', count: 1 },
+      { type: 'CPF', count: 1 },
+      { type: 'telefone', count: 1 },
+    ])
   })
 
   it('não altera texto sem dados pessoais (datas, pedidos, horários)', () => {

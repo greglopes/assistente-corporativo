@@ -47,4 +47,22 @@ podemos oferecer entrega parcial amanha com o que temos em estoque
 contato direto da Ana: (11) 98765-4321`,
     },
   },
+  {
+    // Dados fictícios, só para demonstrar o filtro de privacidade (LGPD).
+    name: '🔒 Dados sensíveis (demo LGPD)',
+    request: {
+      objective: 'Dar boas-vindas a uma nova colaboradora e pedir os documentos de admissão',
+      audience: 'Equipe interna',
+      channel: 'email',
+      tone: 'Próximo e amigável',
+      sender: 'Equipe de RH',
+      content: `nova colaboradora: Joana Ribeiro, CPF 123.456.789-09, começa segunda no time de operações
+email pessoal dela: joana.ribeiro@email.com
+precisa enviar ate sexta: RG, comprovante de residencia e carteira de trabalho
+mandar os documentos para admissao@novarota.com.br
+plano de saude pela parceira Vida Plena, CNPJ 12.345.678/0001-90
+reembolso do exame admissional cai no cartao corporativo 4111 1111 1111 1111
+duvidas: falar com Marcos no (11) 91234-5678`,
+    },
+  },
 ]
