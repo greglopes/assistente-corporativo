@@ -2,6 +2,9 @@
 
 > Fundamentos de IA com foco em IA Generativa · UniFECAF · Greg Lopes
 >
+> **Tecnologia:** Nuxt 4 (Vue + servidor Nitro) · hospedagem no Cloudflare Pages
+> **Apoio:** Claude Code (Anthropic), assistente de programação com IA
+>
 > 📄 Versão em PDF: [parte-teorica.pdf](parte-teorica.pdf) (gerada a partir de [print/parte-teorica.html](print/parte-teorica.html))
 
 **Resumindo:** o Redige é um agente de IA que recebe um formulário simples e roda um *pipeline* de etapas: mascara os dados pessoais, entende o pedido, escreve, avalia o próprio texto (e reescreve se precisar) e entrega tudo para uma pessoa aprovar. Custo de infraestrutura: zero.
@@ -21,6 +24,12 @@ Abrir um chatbot e pedir um texto resolve parte do problema, mas cria outros:
 ### A ideia do Redige
 
 Em vez de deixar o "como escrever bem" na cabeça de cada colaborador, eu coloquei esse conhecimento **dentro do fluxo**. A pessoa só preenche um formulário estruturado (objetivo, canal, público, tom e as informações, que podem ser anotações soltas) e o agente cuida do resto: prompts especializados, manual de estilo da empresa, regras contra invenção, autoavaliação e proteção de dados. No fim, um humano sempre aprova.
+
+### Tecnologias e ferramentas
+
+- **Nuxt 4** (Vue no front-end e servidor Nitro no back-end): interface e API no mesmo projeto, com a chave do modelo protegida no servidor.
+- **Cloudflare Pages**: hospedagem gratuita com URL pública e HTTPS, e deploy automático a cada push no GitHub.
+- **Claude Code** (Anthropic): assistente de programação com IA, usado como apoio no desenvolvimento do código e da documentação.
 
 ## 2. Modelos de IA escolhidos (e por quê)
 
