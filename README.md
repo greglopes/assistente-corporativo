@@ -3,7 +3,7 @@
 > Trabalho da disciplina **Fundamentos de IA com foco em IA Generativa**: *Seu Primeiro Agente de IA*.
 
 **Demonstração:** https://assistente-corporativo.pages.dev
-**Vídeo pitch:** `LINK DO VÍDEO` <!-- YouTube não listado / Loom / Drive -->
+**Vídeo pitch:** https://www.loom.com/share/1d9c418ed9364d27ac12a4b3faa5263e
 
 ## O problema
 
