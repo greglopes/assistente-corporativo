@@ -19,16 +19,16 @@ Não é "abrir um chatbot e pedir um texto". Cada etapa tem instruções própri
 
 ```mermaid
 flowchart TD
-    A[Formulário estruturado<br/>objetivo · canal · público · tom · informações] --> B[Validação + limite de uso]
-    B --> C[1. Proteção de dados LGPD<br/>CPF, e-mail, telefone… → marcadores]
-    C --> D[2. Triagem — LLM<br/>tipo, intenção, urgência, pontos-chave,<br/>informações faltantes, alertas · JSON]
-    D --> E[3. Redação — LLM<br/>manual de estilo + formato do canal]
-    E --> F[4. Autoavaliação — LLM revisor<br/>nota, tom, formato, invenções · JSON<br/>+ contagem de palavras e pendências em código]
+    A["Formulário estruturado<br/>objetivo, canal, público, tom, informações"] --> B["Validação e limite de uso"]
+    B --> C["Etapa 1: Proteção de dados (LGPD)<br/>CPF, e-mail, telefone viram marcadores"]
+    C --> D["Etapa 2: Triagem com LLM<br/>tipo, intenção, urgência, pontos-chave,<br/>informações faltantes, alertas (JSON)"]
+    D --> E["Etapa 3: Redação com LLM<br/>manual de estilo e formato do canal"]
+    E --> F["Etapa 4: Autoavaliação com LLM revisor<br/>nota, tom, formato, invenções (JSON)<br/>e contagem de palavras em código"]
     F -->|aprovado| H
-    F -->|reprovado, 1ª vez| G[5. Correção automática<br/>reescreve com o feedback]
+    F -->|reprovado na 1ª vez| G["Etapa 5: Correção automática<br/>reescreve com o feedback"]
     G --> F
-    H[Dados pessoais restaurados] --> I[6. Revisão humana<br/>editar · pedir ajuste · aprovar e copiar]
-    I -->|"Mais curto", "Mais formal"…| E
+    H["Dados pessoais restaurados"] --> I["Etapa 6: Revisão humana<br/>editar, pedir ajuste, aprovar e copiar"]
+    I -->|pedido de ajuste: mais curto, mais formal| E
 ```
 
 O agente decide sozinho se reescreve: só aprova o próprio rascunho se a nota for ≥ 8, se não houver informação inventada, se o tom estiver adequado e se o texto estiver dentro do limite de palavras do canal. Ele faz no máximo uma reescrita automática e depois entrega ao humano de qualquer jeito, com os alertas visíveis.
