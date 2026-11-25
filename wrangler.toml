@@ -1,0 +1,13 @@
+name = "assistente-corporativo"
+compatibility_date = "2026-11-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "dist"
+
+# Workers AI: usado como provedor alternativo (NUXT_AI_PROVIDER=workers-ai)
+# e como plano B automático quando a cota gratuita do Gemini acaba.
+[ai]
+binding = "AI"
+
+[vars]
+NUXT_AI_PROVIDER = "gemini"
+NUXT_GEMINI_MODEL = "gemini-flash-lite-latest"

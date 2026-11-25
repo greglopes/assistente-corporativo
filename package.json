@@ -1,0 +1,22 @@
+{
+  "name": "assistente-corporativo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "preview": "npx wrangler pages dev dist",
+    "deploy": "nuxt build && npx wrangler pages deploy dist",
+    "postinstall": "nuxt prepare",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "nuxt": "^4.7.0"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vitest": "^5.1.2",
+    "vue-tsc": "^3.3.14",
+    "wrangler": "^4.168.0"
+  }
+}
